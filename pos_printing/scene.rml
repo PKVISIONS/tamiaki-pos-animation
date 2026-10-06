@@ -1,0 +1,346 @@
+<Rive version="1" kind="fragment">
+    <!--
+      POS printing illustration, from Figma "Illustration/printing (layered)" / "Art (1080 → 350)".
+
+      Layer images are the original 1080px cutouts, scaled by 350/1080 = 0.3240741, and every
+      Image is centred (origin 0.5) on its Figma layer's centre. With paper_feed at 0,0 the
+      artboard matches the Figma pose. Draw order: first declared paints on top.
+
+      The paper feeds along the POS's long axis, d = (0.455, 0.8905). Feeding it t units into
+      the slot sets paper_feed to t * d. At t = 108 it is fully behind the slot line, and
+      slot_mask clips away whatever has crossed it.
+
+      Host control: view model PosPrinting, boolean isPrinting (default true).
+        true  -> intro, then printing_loop repeats
+        false -> the current loop cycle finishes, then done feeds the receipt out and holds
+    -->
+    <Artboard viewModelId="0:5" viewModelInstanceId="0:7" defaultStateMachineId="0:8"
+              width="350" height="350" name="PosPrinting" id="0:2" styleId="0:3">
+        <LayoutComponentStyle name="Artboard Style" id="0:3"/>
+
+        <StateMachine name="printing" id="0:8">
+            <StateMachineLayer name="printing" id="0:9">
+                <AnyState x="160" y="-120" id="0:17"/>
+                <ExitState x="760" y="-120" id="0:18"/>
+                <EntryState x="0" y="0" id="0:19">
+                    <StateTransition stateToId="0:11"/>
+                </EntryState>
+
+                <AnimationState x="200" y="0" animationId="0:70" reset="true" id="0:11">
+                    <StateTransition stateToId="0:13" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyBoolean>
+                                    <DataBindContext sourcePathIds="0:5-0:6" propertyKey="634"/>
+                                </BindablePropertyBoolean>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueBooleanComparator value="false"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="0:12" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+                </AnimationState>
+
+                <AnimationState x="400" y="0" animationId="0:71" reset="true" id="0:12">
+                    <StateTransition stateToId="0:13" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyBoolean>
+                                    <DataBindContext sourcePathIds="0:5-0:6" propertyKey="634"/>
+                                </BindablePropertyBoolean>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueBooleanComparator value="false"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                </AnimationState>
+
+                <AnimationState x="600" y="0" animationId="0:72" reset="true" id="0:13">
+                    <StateTransition stateToId="0:11">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyBoolean>
+                                    <DataBindContext sourcePathIds="0:5-0:6" propertyKey="634"/>
+                                </BindablePropertyBoolean>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueBooleanComparator value="true"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                </AnimationState>
+            </StateMachineLayer>
+        </StateMachine>
+
+        <!-- Pivot for the intro scale, at roughly the POS's centre. -->
+        <Node x="175" y="190" name="illustration" id="0:15">
+            <Node x="-175" y="-190" name="art" id="0:16">
+                <Node x="122.176" y="122.5" name="pos" id="0:30">
+                    <Node name="paper_clip" id="0:21">
+                        <ClippingShape sourceId="0:23" name="clip"/>
+                        <Node name="paper_feed" id="0:22">
+                            <!-- Centre is pos-local: Figma centre (134.329, 117.153) minus pos. -->
+                            <Image x="12.153" y="-5.347" scaleX="0.3240741" scaleY="0.3240741" assetId="0:105" name="paper" id="0:20"/>
+                        </Node>
+                    </Node>
+
+                    <!-- Everything on the outer side of the slot line. No paints: it only clips. -->
+                    <Shape name="slot_mask" id="0:23">
+                        <PointsPath isClosed="true" isClockwise="false" name="Path">
+                            <StraightVertex x="-67.764" y="132.180"/>
+                            <StraightVertex x="153.320" y="-70.606"/>
+                            <StraightVertex x="-15.668" y="-254.843"/>
+                            <StraightVertex x="-236.752" y="-52.057"/>
+                        </PointsPath>
+                    </Shape>
+
+                    <!-- The opening the paper comes out of, centred on the slot line. -->
+                    <Shape x="42.778" y="30.787" rotation="-0.7418" name="slot" id="0:24">
+                        <Rectangle width="55" height="3.2" cornerRadiusTL="1.6" originX="0.5" originY="0.5" name="Path"/>
+                        <Fill name="Fill">
+                            <SolidColor colorValue="E61B1F5E" name="Color"/>
+                        </Fill>
+                    </Shape>
+
+                    <Node name="keys" id="0:31">
+                        <Image x="64.167"  y="94.306"  scaleX="0.3240741" scaleY="0.3240741" assetId="0:110" name="key_01" id="0:40"/>
+                        <Image x="77.454"  y="81.991"  scaleX="0.3240741" scaleY="0.3240741" assetId="0:111" name="key_02" id="0:41"/>
+                        <Image x="90.741"  y="69.352"  scaleX="0.3240741" scaleY="0.3240741" assetId="0:112" name="key_03" id="0:42"/>
+                        <Image x="72.755"  y="110.185" scaleX="0.3240741" scaleY="0.3240741" assetId="0:113" name="key_04" id="0:43"/>
+                        <Image x="85.880"  y="97.870"  scaleX="0.3240741" scaleY="0.3240741" assetId="0:114" name="key_05" id="0:44"/>
+                        <Image x="99.167"  y="85.231"  scaleX="0.3240741" scaleY="0.3240741" assetId="0:115" name="key_06" id="0:45"/>
+                        <Image x="81.181"  y="126.065" scaleX="0.3240741" scaleY="0.3240741" assetId="0:116" name="key_07" id="0:46"/>
+                        <Image x="94.468"  y="113.588" scaleX="0.3240741" scaleY="0.3240741" assetId="0:117" name="key_08" id="0:47"/>
+                        <Image x="107.593" y="101.111" scaleX="0.3240741" scaleY="0.3240741" assetId="0:118" name="key_09" id="0:48"/>
+                        <Image x="89.444"  y="142.106" scaleX="0.3240741" scaleY="0.3240741" assetId="0:119" name="key_green" id="0:49"/>
+                        <Image x="116.181" y="117.315" scaleX="0.3240741" scaleY="0.3240741" assetId="0:120" name="key_red" id="0:50"/>
+                        <Image x="102.894" y="129.792" scaleX="0.3240741" scaleY="0.3240741" assetId="0:121" name="key_yellow" id="0:51"/>
+                    </Node>
+                    <Image x="13.773" y="70.486" scaleX="0.3240741" scaleY="0.3240741" assetId="0:103" name="side_button" id="0:33"/>
+                    <Image x="58.495" y="52.662" scaleX="0.3240741" scaleY="0.3240741" assetId="0:102" name="screen" id="0:34"/>
+                    <Image x="67.731" y="87.176" scaleX="0.3240741" scaleY="0.3240741" assetId="0:101" name="body" id="0:35"/>
+                </Node>
+
+                <Image x="166.088" y="255.046" scaleX="0.3240741" scaleY="0.3240741" assetId="0:104" name="stand" id="0:60"/>
+            </Node>
+        </Node>
+
+        <!-- 0.4s: fade and settle in, paper still inside. -->
+        <LinearAnimation fps="60" duration="24" name="intro" id="0:70">
+            <KeyedObject objectId="0:15">
+                <KeyedProperty propertyKey="16">
+                    <KeyFrameDouble frame="0" value="0.9" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.2" y1="0.9" x2="0.3" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble frame="24" value="1"/>
+                </KeyedProperty>
+                <KeyedProperty propertyKey="17">
+                    <KeyFrameDouble frame="0" value="0.9" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.2" y1="0.9" x2="0.3" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble frame="24" value="1"/>
+                </KeyedProperty>
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble frame="0" value="0" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0" y1="0" x2="0.58" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble frame="14" value="1"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:22">
+                <KeyedProperty propertyKey="13">
+                    <KeyFrameDouble frame="0" value="49.140"/>
+                </KeyedProperty>
+                <KeyedProperty propertyKey="14">
+                    <KeyFrameDouble frame="0" value="96.173"/>
+                </KeyedProperty>
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble frame="0" value="1"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:30">
+                <KeyedProperty propertyKey="13">
+                    <KeyFrameDouble frame="0" value="122.176"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:34">
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble frame="0" value="1"/>
+                </KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+
+        <!--
+          2.5s cycle. Paper t: 108 -> 82 -> 54 -> 26 -> 0 in four motor steps (frames 0-90),
+          holds, lifts 10 past the slot while fading (114-130), snaps back inside (131),
+          then key_05 and key_green are pressed for the next receipt (126-148).
+          Frame 150 equals frame 0, so the loop has no seam.
+        -->
+        <LinearAnimation fps="60" duration="150" loopValue="loop" name="printing_loop" id="0:71">
+            <KeyedObject objectId="0:22">
+                <KeyedProperty propertyKey="13">
+                    <KeyFrameDouble frame="0" value="49.140" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="18" value="37.310" interpolationType="hold"/>
+                    <KeyFrameDouble frame="24" value="37.310" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="42" value="24.570" interpolationType="hold"/>
+                    <KeyFrameDouble frame="48" value="24.570" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="66" value="11.830" interpolationType="hold"/>
+                    <KeyFrameDouble frame="72" value="11.830" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="90" value="0" interpolationType="hold"/>
+                    <KeyFrameDouble frame="114" value="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="1" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="130" value="-4.550" interpolationType="hold"/>
+                    <KeyFrameDouble frame="131" value="49.140" interpolationType="hold"/>
+                    <KeyFrameDouble frame="150" value="49.140"/>
+                </KeyedProperty>
+                <KeyedProperty propertyKey="14">
+                    <KeyFrameDouble frame="0" value="96.173" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="18" value="73.021" interpolationType="hold"/>
+                    <KeyFrameDouble frame="24" value="73.021" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="42" value="48.087" interpolationType="hold"/>
+                    <KeyFrameDouble frame="48" value="48.087" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="66" value="23.153" interpolationType="hold"/>
+                    <KeyFrameDouble frame="72" value="23.153" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="90" value="0" interpolationType="hold"/>
+                    <KeyFrameDouble frame="114" value="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="1" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="130" value="-8.905" interpolationType="hold"/>
+                    <KeyFrameDouble frame="131" value="96.173" interpolationType="hold"/>
+                    <KeyFrameDouble frame="150" value="96.173"/>
+                </KeyedProperty>
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble frame="0" value="1" interpolationType="hold"/>
+                    <KeyFrameDouble frame="114" value="1" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="130" value="0" interpolationType="hold"/>
+                    <KeyFrameDouble frame="131" value="1" interpolationType="hold"/>
+                    <KeyFrameDouble frame="150" value="1"/>
+                </KeyedProperty>
+            </KeyedObject>
+
+            <!-- A small buzz through the POS as each feed step starts. -->
+            <KeyedObject objectId="0:30">
+                <KeyedProperty propertyKey="13">
+                    <KeyFrameDouble frame="0" value="122.176" interpolationType="linear"/>
+                    <KeyFrameDouble frame="2" value="122.576" interpolationType="linear"/>
+                    <KeyFrameDouble frame="4" value="121.776" interpolationType="linear"/>
+                    <KeyFrameDouble frame="6" value="122.176" interpolationType="hold"/>
+                    <KeyFrameDouble frame="24" value="122.176" interpolationType="linear"/>
+                    <KeyFrameDouble frame="26" value="122.576" interpolationType="linear"/>
+                    <KeyFrameDouble frame="28" value="121.776" interpolationType="linear"/>
+                    <KeyFrameDouble frame="30" value="122.176" interpolationType="hold"/>
+                    <KeyFrameDouble frame="48" value="122.176" interpolationType="linear"/>
+                    <KeyFrameDouble frame="50" value="122.576" interpolationType="linear"/>
+                    <KeyFrameDouble frame="52" value="121.776" interpolationType="linear"/>
+                    <KeyFrameDouble frame="54" value="122.176" interpolationType="hold"/>
+                    <KeyFrameDouble frame="72" value="122.176" interpolationType="linear"/>
+                    <KeyFrameDouble frame="74" value="122.576" interpolationType="linear"/>
+                    <KeyFrameDouble frame="76" value="121.776" interpolationType="linear"/>
+                    <KeyFrameDouble frame="78" value="122.176" interpolationType="hold"/>
+                    <KeyFrameDouble frame="150" value="122.176"/>
+                </KeyedProperty>
+            </KeyedObject>
+
+            <!-- Screen dims while printing and recovers as the receipt finishes. -->
+            <KeyedObject objectId="0:34">
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble frame="0" value="1" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="45" value="0.8" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="90" value="1" interpolationType="hold"/>
+                    <KeyFrameDouble frame="150" value="1"/>
+                </KeyedProperty>
+            </KeyedObject>
+
+            <KeyedObject objectId="0:44">
+                <KeyedProperty propertyKey="16">
+                    <KeyFrameDouble frame="126" value="0.3240741" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="130" value="0.2787037" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="138" value="0.3240741"/>
+                </KeyedProperty>
+                <KeyedProperty propertyKey="17">
+                    <KeyFrameDouble frame="126" value="0.3240741" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="130" value="0.2787037" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="138" value="0.3240741"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:49">
+                <KeyedProperty propertyKey="16">
+                    <KeyFrameDouble frame="136" value="0.3240741" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="140" value="0.2787037" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="148" value="0.3240741"/>
+                </KeyedProperty>
+                <KeyedProperty propertyKey="17">
+                    <KeyFrameDouble frame="136" value="0.3240741" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="140" value="0.2787037" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="148" value="0.3240741"/>
+                </KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+
+        <!--
+          1s, plays once and holds: the receipt feeds out in one glide and stops at the
+          Figma pose, then key_green confirms. Keys everything the loop touches, so the
+          final frame is the same whatever cycle the loop left off in.
+        -->
+        <LinearAnimation fps="60" duration="60" name="done" id="0:72">
+            <KeyedObject objectId="0:15">
+                <KeyedProperty propertyKey="16"><KeyFrameDouble frame="0" value="1"/></KeyedProperty>
+                <KeyedProperty propertyKey="17"><KeyFrameDouble frame="0" value="1"/></KeyedProperty>
+                <KeyedProperty propertyKey="18"><KeyFrameDouble frame="0" value="1"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:22">
+                <KeyedProperty propertyKey="13">
+                    <KeyFrameDouble frame="0" value="49.140" interpolationType="cubic"><CubicEaseInterpolator x1="0.25" y1="0.1" x2="0.25" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="40" value="0"/>
+                </KeyedProperty>
+                <KeyedProperty propertyKey="14">
+                    <KeyFrameDouble frame="0" value="96.173" interpolationType="cubic"><CubicEaseInterpolator x1="0.25" y1="0.1" x2="0.25" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="40" value="0"/>
+                </KeyedProperty>
+                <KeyedProperty propertyKey="18"><KeyFrameDouble frame="0" value="1"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:30">
+                <KeyedProperty propertyKey="13"><KeyFrameDouble frame="0" value="122.176"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:34">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble frame="0" value="1"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:44">
+                <KeyedProperty propertyKey="16"><KeyFrameDouble frame="0" value="0.3240741"/></KeyedProperty>
+                <KeyedProperty propertyKey="17"><KeyFrameDouble frame="0" value="0.3240741"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:49">
+                <KeyedProperty propertyKey="16">
+                    <KeyFrameDouble frame="0" value="0.3240741" interpolationType="hold"/>
+                    <KeyFrameDouble frame="42" value="0.3240741" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="47" value="0.2787037" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="56" value="0.3240741"/>
+                </KeyedProperty>
+                <KeyedProperty propertyKey="17">
+                    <KeyFrameDouble frame="0" value="0.3240741" interpolationType="hold"/>
+                    <KeyFrameDouble frame="42" value="0.3240741" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="47" value="0.2787037" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+                    <KeyFrameDouble frame="56" value="0.3240741"/>
+                </KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+    </Artboard>
+
+    <ViewModel defaultInstanceId="0:7" name="PosPrinting" id="0:5">
+        <ViewModelPropertyBoolean name="isPrinting" id="0:6"/>
+        <ViewModelInstance exports="true" name="Default" id="0:7">
+            <ViewModelInstanceBoolean propertyValue="true" viewModelPropertyId="0:6"/>
+        </ViewModelInstance>
+    </ViewModel>
+
+    <ImageAsset file="assets/body.png" name="body" id="0:101"/>
+    <ImageAsset file="assets/screen.png" name="screen" id="0:102"/>
+    <ImageAsset file="assets/side_button.png" name="side_button" id="0:103"/>
+    <ImageAsset file="assets/stand.png" name="stand" id="0:104"/>
+    <ImageAsset file="assets/paper.png" name="paper" id="0:105"/>
+    <ImageAsset file="assets/key_01.png" name="key_01" id="0:110"/>
+    <ImageAsset file="assets/key_02.png" name="key_02" id="0:111"/>
+    <ImageAsset file="assets/key_03.png" name="key_03" id="0:112"/>
+    <ImageAsset file="assets/key_04.png" name="key_04" id="0:113"/>
+    <ImageAsset file="assets/key_05.png" name="key_05" id="0:114"/>
+    <ImageAsset file="assets/key_06.png" name="key_06" id="0:115"/>
+    <ImageAsset file="assets/key_07.png" name="key_07" id="0:116"/>
+    <ImageAsset file="assets/key_08.png" name="key_08" id="0:117"/>
+    <ImageAsset file="assets/key_09.png" name="key_09" id="0:118"/>
+    <ImageAsset file="assets/key_green.png" name="key_green" id="0:119"/>
+    <ImageAsset file="assets/key_red.png" name="key_red" id="0:120"/>
+    <ImageAsset file="assets/key_yellow.png" name="key_yellow" id="0:121"/>
+</Rive>

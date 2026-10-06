@@ -1,0 +1,11 @@
+{
+  "name": "pos-printing-runtime-check",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node check.mjs"
+  },
+  "dependencies": {
+    "@rive-app/canvas-advanced": "2.44.0"
+  }
+}
